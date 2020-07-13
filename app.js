@@ -4,12 +4,38 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const queries = require('./queries');
 const port = process.env.PORT || 3001;
+const jwt = require("express-jwt");
+const jwksRsa = require("jwks-rsa");
+
+const authConfig = {
+    domain: "jimbucktooauth.us.auth0.com",
+    audience: "https://inquizlit-backend.herokuapp.com/"
+};
+
+const checkJwt = jwt({
+    secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: `https://${authConfig.domain}/.well-known/jwks.json`
+    }),
+
+    audience: authConfig.audience,
+    issuer: `https://${authConfig.domain}/`,
+    algorithms: ["RS256"]
+});
 
 app.use(express.static('public'));
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/questions', (req, res) => {
+app.get("/api/external", checkJwt, (req, res) => {
+    res.send({
+        msg: "Your Access Token was successfully validated!"
+    });
+});
+
+app.get('/questions', checkJwt, (req, res) => {
     queries.getAllQuestions().then(questions => res.send(questions));
 });
 
