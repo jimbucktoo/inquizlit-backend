@@ -39,59 +39,59 @@ app.get('/questions', checkJwt, (req, res) => {
     queries.getAllQuestions().then(questions => res.send(questions));
 });
 
-app.get('/questions/:id', (req, res) => {
+app.get('/questions/:id', checkJwt, (req, res) => {
     queries.getQuestionById(req.params.id).then(question => res.send(question));
 });
 
-app.get('/answers', (req, res) => {
+app.get('/answers', checkJwt, (req, res) => {
     queries.getAllAnswers().then(answers => res.send(answers));
 });
 
-app.get('/answers/:id', (req, res) => {
+app.get('/answers/:id', checkJwt, (req, res) => {
     queries.getAnswerById(req.params.id).then(answer => res.send(answer));
 });
 
-app.get('/users', (req, res) => {
+app.get('/users', checkJwt, (req, res) => {
     queries.getAllUsers().then(users => res.send(users));
 });
 
-app.get('/users/:id', (req, res) => {
+app.get('/users/:id', checkJwt, (req, res) => {
     queries.getUserById(req.params.id).then(user => res.send(user));
 });
 
-app.post('/questions', (req, res) => {
+app.post('/questions', checkJwt, (req, res) => {
     queries.createQuestion(req.body).then(newQuestion => res.send(newQuestion));
 });
 
-app.post('/answers', (req, res) => {
+app.post('/answers', checkJwt, (req, res) => {
     queries.createAnswer(req.body).then(newAnswer => res.send(newAnswer));
 });
 
-app.delete('/questions/:id', (req, res) => {
+app.delete('/questions/:id', checkJwt, (req, res) => {
     queries.deleteQuestion(req.params.id).then(res.sendStatus(204));
 });
 
-app.delete('/answers/:id', (req, res) => {
+app.delete('/answers/:id', checkJwt, (req, res) => {
     queries.deleteAnswer(req.params.id).then(res.sendStatus(204));
 });
 
-app.delete('/users/:id', (req, res) => {
+app.delete('/users/:id', checkJwt, (req, res) => {
     queries.deleteUser(req.params.id).then(res.sendStatus(204));
 });
 
-app.patch('/questions/:id/upvote', (req, res) => {
+app.patch('/questions/:id/upvote', checkJwt, (req, res) => {
     queries.patchUpvoteQuestion(req.params.id).then(newVoteCount => res.send('post'));
 });
 
-app.patch('/questions/:id/downvote', (req, res) => {
+app.patch('/questions/:id/downvote', checkJwt, (req, res) => {
     queries.patchDownvoteQuestion(req.params.id).then(newVoteCount => res.send('post'));
 });
 
-app.patch('/answers/:id/upvote', (req, res) => {
+app.patch('/answers/:id/upvote', checkJwt, (req, res) => {
     queries.patchUpvoteAnswer(req.params.id).then(newVoteCount => res.send('it worked'));
 });
 
-app.patch('/answers/:id/downvote', (req, res) => {
+app.patch('/answers/:id/downvote', checkJwt, (req, res) => {
     queries.patchDownvoteAnswer(req.params.id).then(newVoteCount => res.send('it worked'));
 });
 
